@@ -6,8 +6,8 @@ import {
   createBackendModule,
 } from '@backstage/backend-plugin-api';
 import { scaffolderActionsExtensionPoint } from '@backstage/plugin-scaffolder-node/alpha';
-import { createArgoCDApp } from './argocd';
-import { getRootLogger } from '@backstage/backend-common';
+// import { createArgoCDApp } from './argocd';
+// import { getRootLogger } from '@backstage/backend-common';
 import { createKubernetesApply } from './k8s-apply';
 import { createSanitizeResource } from './sanitize';
 import { createVerifyDependency } from './verify';
@@ -23,17 +23,18 @@ export const cnoeScaffolderActions = createBackendModule({
       },
       async init({ scaffolder, config }) {
         const integrations = ScmIntegrations.fromConfig(config);
-        const logger = getRootLogger();
+        // const logger = getRootLogger();
 
         scaffolder.addActions(
           createPublishGiteaAction({
             integrations,
             config,
           }),
-          createArgoCDApp({
-            config,
-            logger,
-          }),
+          // Temporarily disabled to avoid errors
+          // createArgoCDApp({
+          //   config,
+          //   logger,
+          // }),
           createKubernetesApply(config),
           createSanitizeResource(),
           createVerifyDependency(),

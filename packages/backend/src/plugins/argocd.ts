@@ -12,7 +12,16 @@ export default async function createPlugin({
   logger,
   config,
 }: PluginEnvironment) {
-  return await createRouter({ logger, config });
+  return await createRouter({ 
+    logger, 
+    config,
+    argocdService: new ArgoService(
+      config.getOptionalString('argocd.username') ?? 'argocdUsername',
+      config.getOptionalString('argocd.password') ?? 'argocdPassword',
+      config,
+      logger
+    )
+  });
 }
 
 export function createArgoCDApp(options: { config: Config; logger: Logger }) {
